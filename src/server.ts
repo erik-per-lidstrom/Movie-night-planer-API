@@ -2,9 +2,11 @@ import mongoose from "mongoose";
 import { createApp } from "./app";
 import dotenv from "dotenv";
 dotenv.config();
+
 const PORT = Number(process.env.PORT) || 4000;
 const NODE_ENV = process.env.NODE_ENV || "development";
 const MONGO_URI = process.env.MONGO_URI ?? "mongodb://localhost:27017/myapp";
+
 const startServer = async () => {
   try {
     await mongoose.connect(MONGO_URI);
