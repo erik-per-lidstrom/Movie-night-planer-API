@@ -2,18 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { AppError } from "../utils/app.error";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: { id: string; role: string };
-    }
-  }
-}
-
 export const protect = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const token = req.headers.authorization?.split(" ")[1];
 
