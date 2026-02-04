@@ -1,18 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import {
   createMovieService,
-  getAllMoviesService,
   getMovieByIdService,
   deleteMovieService,
   updateMovieService,
 } from "../services/movie.service";
-import {
-  capLimit,
-  DEFAULT_LIMIT,
-  DEFAULT_PAGE,
-  toPositiveInteger,
-} from "../utils/query.utils";
-import { MovieListQueryParams, MovieListRequest } from "../types/query.types";
 
 export const createMovie = async (
   req: Request,
@@ -20,57 +12,21 @@ export const createMovie = async (
   next: NextFunction,
 ) => {
   try {
-    const { Title, Date, Description, AgeRate, Genre, ImageURL } = req.body;
+    const { Title, Description, AgeRate, Genre, ImageURL, Runtime, EventId } =
+      req.body;
 
     const newMovie = await createMovieService(
       Title,
-      Date,
       Description,
       AgeRate,
       Genre,
       ImageURL,
+      Runtime,
+      EventId,
     );
     res
       .status(201)
       .json({ message: "Movie created successfully", movie: newMovie });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getMovies = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const {
-      page: pageParam,
-      limit: limitParam,
-      sort,
-      Title,
-      AgeRate,
-      Genre,
-      Description,
-      ImageURL,
-      search,
-    } = req.query as MovieListQueryParams;
-    const page = toPositiveInteger(pageParam, DEFAULT_PAGE);
-    const limit = capLimit(toPositiveInteger(limitParam, DEFAULT_LIMIT));
-    const options: MovieListRequest = {
-      limit,
-      page,
-      Title,
-      AgeRate,
-      Genre,
-      Description,
-      ImageURL,
-      search,
-      sort,
-    };
-
-    const movies = await getAllMoviesService(options);
-    res.status(200).json(movies);
   } catch (error) {
     next(error);
   }

@@ -8,6 +8,7 @@ export interface MovieDocument {
   Description: string;
   ImageURL: string;
   Runtime: string;
+  EventId: mongoose.Types.ObjectId;
 }
 
 export const MovieZodSchema = z.object({

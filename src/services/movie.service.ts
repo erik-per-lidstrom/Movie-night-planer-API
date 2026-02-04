@@ -31,10 +31,6 @@ const allowedProjectionFields = [
   "runtime",
 ] as const;
 
-export const getAllMoviesService = async (
-  queryParams: MovieListRequest,
-): Promise<ListResult<MovieDocument>> => {};
-
 export const createMovieService = async (
   Title: string,
   AgeRate: string,
@@ -42,11 +38,20 @@ export const createMovieService = async (
   Description: string,
   ImageURL: string,
   Runtime: string,
+  EventId: string,
 ) => {
   const existingMovie = await MovieModel.findOne({ Title });
   console.log(existingMovie);
   if (existingMovie) throw new AppError("movie already exists", 409);
-  const newMovie = { Title, AgeRate, Genre, Description, ImageURL, Runtime };
+  const newMovie = {
+    Title,
+    AgeRate,
+    Genre,
+    Description,
+    ImageURL,
+    Runtime,
+    EventId,
+  };
   await MovieModel.create(newMovie);
   return newMovie;
 };
