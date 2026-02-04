@@ -1,4 +1,5 @@
 // services for EVENTS
+import { EventDocument, EventModel } from "../models/event.model";
 import { AppError } from "../utils/app.error";
 
 export interface Event {
@@ -15,15 +16,15 @@ export interface Event {
 
 export const createEvent = async (
   title: string,
-  date: number,
+  date: Date,
   location: string,
-  description?: string,
-  agerate?: string,
-  genre?: string,
-  runtime?: number,
-  imgUrl?: string,
+  description: string,
+  agerate: string,
+  genre: string,
+  runtime: number,
+  imgUrl: string,
 ) => {
-  const newEvent: EventDocuemnt = {
+  const newEvent: EventDocument = {
     title,
     date,
     location,
@@ -31,5 +32,6 @@ export const createEvent = async (
     agerate,
     genre,
     runtime,
+    imgUrl,
   };
 };
