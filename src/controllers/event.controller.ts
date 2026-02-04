@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as EventService from "../services/event.service";
+import { Types } from "mongoose";
 
 export const createEvent = async (
   req: Request,
@@ -8,25 +9,26 @@ export const createEvent = async (
 ) => {
   try {
     const {
-      title,
+      name,
       date,
       location,
+      starttime,
+      endtime,
       description,
       agerate,
       genre,
-      runtime,
-      imgUrl,
     } = req.body;
 
     const newEvent = await EventService.createEvent(
-      title,
+      name,
       date,
       location,
+      starttime,
+      endtime,
       description,
       agerate,
       genre,
-      runtime,
-      imgUrl,
+      new Types.ObjectId(req.user!.id),
     );
     res
       .status(201)
@@ -42,7 +44,7 @@ export const showEvents = async (
   next: NextFunction,
 ) => {
   try {
-    const events = await EventService.getAllEvents();
+    const events = await EventService.showEvents();
     res.status(200).json(events);
   } catch (error) {
     next(error);
@@ -63,7 +65,7 @@ export const getEventById = async (
 };
 
 export const updateEvent = async (
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction,
 ) => {

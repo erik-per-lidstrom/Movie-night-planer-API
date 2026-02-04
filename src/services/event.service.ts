@@ -1,18 +1,8 @@
 // services for EVENTS
+
+import { mongo } from "mongoose";
 import { EventDocument, EventModel } from "../models/event.model";
 import { AppError } from "../utils/app.error";
-
-export interface Event {
-  id: number;
-  name: string;
-  date: Date;
-  location: string;
-  description: string;
-  starttime: string;
-  endtime: string;
-  agerate: string;
-  genre: string;
-}
 
 export const createEvent = async (
   name: string,
@@ -23,6 +13,7 @@ export const createEvent = async (
   starttime: string,
   endtime: string,
   genre: string,
+  ownerId: mongo.ObjectId,
 ) => {
   const newEvent: EventDocument = {
     name,
@@ -33,6 +24,7 @@ export const createEvent = async (
     endtime,
     agerate,
     genre,
+    ownerId,
   };
   const existingEvent = await EventModel.findOne({ name });
   if (existingEvent) {
