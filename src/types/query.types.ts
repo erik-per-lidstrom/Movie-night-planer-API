@@ -37,15 +37,17 @@ export interface ListResult<T> {
 }
 
 export interface ProductListQueryParams extends ListQueryParams {
-  category?: string;
-  minPrice?: string;
-  maxPrice?: string;
-  inStock?: string;
+  date?: string;
+  location?: string;
+  starttime?: string;
+  endtime?: string;
+  ownerId?: string;
 }
 
 export interface ProductListRequest extends ListRequestBase {
-  category?: string;
-  minPrice?: string;
-  maxPrice?: string;
-  inStock?: string;
+  date?: string;
+  location?: string;
+  starttime?: string;
+  endtime?: string;
+  ownerId?: string;
 }

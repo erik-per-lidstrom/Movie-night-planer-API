@@ -57,7 +57,7 @@ export const parseProjection = (
   if (safeFields.length === 0) return undefined;
 
   return safeFields.join(" ");
-}; //!need to change
+};
 
 export const buildSearchQuery = (
   search: string | undefined,
@@ -66,4 +66,4 @@ export const buildSearchQuery = (
   if (!search) return undefined;
   const regex = new RegExp(search, "i");
   return { $or: searchFields.map((field) => ({ [field]: regex })) };
-}; //!need to change
+};
