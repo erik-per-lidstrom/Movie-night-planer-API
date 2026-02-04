@@ -1,23 +1,16 @@
 import mongoose from "mongoose";
 
-export interface EventDocument {
-  title: string;
-  date: Date;
-  location: string;
-  description: string;
-  agerate: string;
-  genre: string;
-  runtime: number;
-  imgUrl: string;
-}
 import { z } from "zod";
 
-export interface Event {
+export interface EventDocument {
   name: string;
   date: Date;
   location: string;
   starttime: string;
   endtime: string;
+  description: string;
+  agerate: string;
+  genre: string;
   ownerId: mongoose.Types.ObjectId;
 }
 export const EventZodSchema = z.object({
@@ -48,4 +41,5 @@ const eventSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-export const EventModel = mongoose.model<Event>("Event", eventSchema);
+
+export const EventModel = mongoose.model<EventDocument>("Event", eventSchema);

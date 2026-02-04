@@ -36,16 +36,24 @@ export interface ListResult<T> {
   meta: ListResponseMeta;
 }
 
-export interface ProductListQueryParams extends ListQueryParams {
-  category?: string;
-  minPrice?: string;
-  maxPrice?: string;
-  inStock?: string;
+export interface EventListQueryParams extends ListQueryParams {
+  date?: string;
+  location?: string;
+  starttime?: string;
+  endtime?: string;
+  ownerId?: string;
+  description?: string;
+  agerate?: string;
+  genre?: string;
 }
 
-export interface ProductListRequest extends ListRequestBase {
-  category?: string;
-  minPrice?: string;
-  maxPrice?: string;
-  inStock?: string;
+export interface EventListRequest extends ListRequestBase {
+  date?: string;
+  location?: string;
+  starttime?: string;
+  endtime?: string;
+  ownerId?: string;
+  description?: string;
+  agerate?: string;
+  genre?: string;
 }

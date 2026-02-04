@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as EventService from "../services/event.service";
+
 export const createEvent = async (
   req: Request,
   res: Response,
@@ -16,6 +17,7 @@ export const createEvent = async (
       runtime,
       imgUrl,
     } = req.body;
+
     const newEvent = await EventService.createEvent(
       title,
       date,
@@ -68,6 +70,21 @@ export const deleteEvent = async (
   try {
     await EventService.deleteEvent(req.params.id);
     res.status(200).json({ message: "Event deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id as string;
+    const changes = req.body;
+    const updatedEvent = await EventService.updateEvent(id, changes);
+    res.status(200).json(updatedEvent);
   } catch (error) {
     next(error);
   }
