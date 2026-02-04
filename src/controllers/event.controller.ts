@@ -73,3 +73,18 @@ export const deleteEvent = async (
     next(error);
   }
 };
+
+export const updateEvent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id as string;
+    const changes = req.body;
+    const updatedEvent = await EventService.updateEvent(id, changes);
+    res.status(200).json(updatedEvent);
+  } catch (error) {
+    next(error);
+  }
+};
