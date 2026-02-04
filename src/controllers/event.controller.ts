@@ -17,6 +17,7 @@ export const createEvent = async (
       runtime,
       imgUrl,
     } = req.body;
+
     const newEvent = await EventService.createEvent(
       title,
       date,
