@@ -6,9 +6,29 @@ export const createEvent = async (
   next: NextFunction,
 ) => {
   try {
-    const { title, date, location } = req.body;
-    const newEvent = await EventService.createEvent(title, date, location);
-    res.status(201).json({ message: "Event created successfully" });
+    const {
+      title,
+      date,
+      location,
+      description,
+      agerate,
+      genre,
+      runtime,
+      imgUrl,
+    } = req.body;
+    const newEvent = await EventService.createEvent(
+      title,
+      date,
+      location,
+      description,
+      agerate,
+      genre,
+      runtime,
+      imgUrl,
+    );
+    res
+      .status(201)
+      .json({ message: "Event created successfully", event: newEvent });
   } catch (error) {
     next(error);
   }
