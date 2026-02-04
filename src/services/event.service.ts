@@ -4,34 +4,34 @@ import { AppError } from "../utils/app.error";
 
 export interface Event {
   id: number;
-  title: string;
+  name: string;
   date: Date;
   location: string;
-  description?: string;
-  agerate?: string;
-  genre?: string;
-  runtime?: number;
-  imgUrl?: string;
+  description: string;
+  starttime: string;
+  endtime: string;
+  agerate: string;
+  genre: string;
 }
 
 export const createEvent = async (
-  title: string,
+  name: string,
   date: Date,
   location: string,
   description: string,
   agerate: string,
+  starttime: string,
+  endtime: string,
   genre: string,
-  runtime: number,
-  imgUrl: string,
 ) => {
   const newEvent: EventDocument = {
-    title,
+    name,
     date,
     location,
     description,
+    starttime,
+    endtime,
     agerate,
     genre,
-    runtime,
-    imgUrl,
   };
 };
