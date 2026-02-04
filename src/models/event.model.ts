@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { z } from "zod";
 
 export interface EventDocument {
@@ -40,4 +41,5 @@ const eventSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
 export const EventModel = mongoose.model<EventDocument>("Event", eventSchema);
