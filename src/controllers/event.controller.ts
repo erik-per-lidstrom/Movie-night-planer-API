@@ -62,19 +62,6 @@ export const getEventById = async (
   }
 };
 
-export const deleteEvent = async (
-  req: Request<{ id: string }>,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    await EventService.deleteEvent(req.params.id);
-    res.status(200).json({ message: "Event deleted successfully" });
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const updateEvent = async (
   req: Request,
   res: Response,
@@ -85,6 +72,19 @@ export const updateEvent = async (
     const changes = req.body;
     const updatedEvent = await EventService.updateEvent(id, changes);
     res.status(200).json(updatedEvent);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteEvent = async (
+  req: Request<{ id: string }>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    await EventService.deleteEvent(req.params.id);
+    res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     next(error);
   }
