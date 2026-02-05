@@ -29,7 +29,7 @@ export const loginControler = async (
   const { email, password } = req.body;
   try {
     const newUser = await loginUserServise({ email, password });
-    res.status(201).json({ message: "login successfuly", user: newUser });
+    res.status(200).json({ message: "login successfuly", user: newUser });
   } catch (error) {
     next(error);
   }

@@ -4,6 +4,7 @@ import {
   getMovieByIdService,
   deleteMovieService,
   updateMovieService,
+  getMoviesByEventIdService,
 } from "../services/movie.service";
 
 export const createMovie = async (
@@ -32,6 +33,20 @@ export const createMovie = async (
   }
 };
 
+export const getMovieByEventId = async (
+  req: Request<{ eventId: string }>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const eventId = req.params.eventId;
+    // Assuming you have a service function to get movies by event ID
+    const movies = await getMoviesByEventIdService(eventId);
+    res.status(200).json(movies);
+  } catch (error) {
+    next(error);
+  }
+};
 export const getMovieById = async (
   req: Request<{ id: string }>,
   res: Response,

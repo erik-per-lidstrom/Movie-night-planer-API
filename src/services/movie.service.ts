@@ -8,6 +8,7 @@ import {
   parseProjection,
   parseSort,
 } from "../utils/query.utils";
+import e from "express";
 
 const allowedSortFields = [
   "createdAt",
@@ -54,6 +55,14 @@ export const createMovieService = async (
   };
   await MovieModel.create(newMovie);
   return newMovie;
+};
+
+export const getMoviesByEventIdService = async (eventId: string) => {
+  const movies = await MovieModel.find({ EventId: eventId });
+  if (!movies || movies.length === 0) {
+    throw new AppError("No movies found for this event", 404);
+  }
+  return movies;
 };
 
 export const getMovieByIdService = async (id: string) => {
