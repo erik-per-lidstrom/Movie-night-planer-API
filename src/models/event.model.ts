@@ -20,6 +20,9 @@ export const EventZodSchema = z.object({
     location: z.string("not valid location").min(3),
     starttime: z.string("not valid starttime"),
     endtime: z.string("not valid endtime"),
+    description: z.string("not valid description").min(3),
+    agerate: z.string("not valid agerate").min(1),
+    genre: z.string("not valid genre").min(1),
     ownerId: z.string("not valid ownerId"),
   }),
 });
@@ -33,6 +36,9 @@ const eventSchema = new mongoose.Schema(
     location: { type: String, required: true },
     starttime: { type: String, required: true },
     endtime: { type: String, required: true },
+    description: { type: String, required: true },
+    agerate: { type: String, required: true },
+    genre: { type: String, required: true },
     ownerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
