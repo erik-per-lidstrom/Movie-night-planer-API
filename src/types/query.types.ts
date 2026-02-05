@@ -57,3 +57,23 @@ export interface EventListRequest extends ListRequestBase {
   agerate?: string;
   genre?: string;
 }
+
+export interface MovieListQueryParams extends ListQueryParams {
+  Title?: string;
+  AgeRate?: string;
+  Genre?: string;
+  Description?: string;
+  ImageURL?: string;
+  Runtime?: string;
+  EventId?: string;
+}
+
+export interface MovieListRequest extends ListRequestBase {
+  Title?: string;
+  AgeRate?: string;
+  Genre?: string;
+  Description?: string;
+  ImageURL?: string;
+  Runtime?: string;
+  EventId?: string;
+}
