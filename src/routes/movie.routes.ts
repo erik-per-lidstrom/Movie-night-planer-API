@@ -5,6 +5,7 @@ import {
   getMovieById,
   deleteMovie,
   updateMovie,
+  getAllMovies,
 } from "../controllers/movie.controller";
 import { protect, restrictTo } from "../middleware/auth.middelware";
 import { validate } from "../middleware/validate.middleware";
@@ -19,6 +20,8 @@ router.post(
   restrictTo("admin"),
   createMovie,
 );
+
+router.get("/", protect, getAllMovies);
 
 router.get("/:id", protect, getMovieById);
 

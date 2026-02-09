@@ -28,6 +28,15 @@ export const createMovieService = async (
   return newMovie;
 };
 
+export const getAllMoviesService = async () => {
+  const movies = await MovieModel.find();
+  if (movies.length === 0) {
+    throw new AppError("No movies found", 404);
+  }
+
+  return movies;
+};
+
 export const getMoviesByEventIdService = async (eventId: string) => {
   const movies = await MovieModel.find({ eventId: eventId });
   if (!movies || movies.length === 0) {

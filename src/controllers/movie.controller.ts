@@ -5,7 +5,9 @@ import {
   deleteMovieService,
   updateMovieService,
   getMoviesByEventIdService,
+  getAllMoviesService,
 } from "../services/movie.service";
+import { MovieModel } from "../models/movie.model";
 
 export const createMovie = async (
   req: Request,
@@ -37,6 +39,19 @@ export const createMovie = async (
     res
       .status(201)
       .json({ message: "Movie created successfully", movie: newMovie });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllMovies = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const movies = await getAllMoviesService();
+    res.status(200).json(movies);
   } catch (error) {
     next(error);
   }
