@@ -9,6 +9,7 @@ export interface MovieDocument {
   ImageURL: string;
   Runtime: string;
   EventId: mongoose.Types.ObjectId;
+  OwnerId: mongoose.Types.ObjectId;
 }
 
 export const MovieZodSchema = z.object({
@@ -19,6 +20,7 @@ export const MovieZodSchema = z.object({
     Description: z.string("not valid description"),
     ImageURL: z.string("not valid image URL"),
     EventId: z.string("not valid ownerId"),
+    OwnerId: z.string("not valid ownerId"),
   }),
 });
 
@@ -34,6 +36,11 @@ const movieSchema = new mongoose.Schema(
     EventId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Event",
+      required: true,
+    },
+    OwnerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },

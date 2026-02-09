@@ -13,8 +13,16 @@ export const createMovie = async (
   next: NextFunction,
 ) => {
   try {
-    const { Title, Description, AgeRate, Genre, ImageURL, Runtime, EventId } =
-      req.body;
+    const {
+      Title,
+      Description,
+      AgeRate,
+      Genre,
+      ImageURL,
+      Runtime,
+      EventId,
+      OwnerId = req.user?.id ?? "",
+    } = req.body;
 
     const newMovie = await createMovieService(
       Title,
@@ -24,6 +32,7 @@ export const createMovie = async (
       ImageURL,
       Runtime,
       EventId,
+      OwnerId,
     );
     res
       .status(201)

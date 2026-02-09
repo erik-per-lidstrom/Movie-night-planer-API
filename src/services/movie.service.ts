@@ -9,6 +9,7 @@ export const createMovieService = async (
   ImageURL: string,
   Runtime: string,
   EventId: string,
+  OwnerId: string,
 ) => {
   const existingMovie = await MovieModel.findOne({ Title });
   console.log(existingMovie);
@@ -21,6 +22,7 @@ export const createMovieService = async (
     ImageURL,
     Runtime,
     EventId,
+    OwnerId,
   };
   await MovieModel.create(newMovie);
   return newMovie;
