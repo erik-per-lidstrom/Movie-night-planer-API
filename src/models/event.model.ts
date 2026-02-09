@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { z } from "zod";
+import { optional, z } from "zod";
 
 export interface EventDocument {
   name: string;
@@ -50,6 +50,7 @@ const eventSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Movie",
+        optional: true,
       },
     ],
   },

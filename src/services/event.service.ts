@@ -33,11 +33,14 @@ export const createEvent = async (
     throw new AppError("Event with this name already exists", 409);
   }
   const createdEvent = (await EventModel.create(newEvent)).populate("movies");
+
   return createdEvent;
 };
 
 export const showEvents = async () => {
-  const events = await EventModel.find();
+  const events = await EventModel.find()
+    .populate("movies")
+    .populate("ownerId", "_id name email");
   if (events.length === 0) {
     throw new AppError("No events found", 404);
   }
@@ -45,7 +48,9 @@ export const showEvents = async () => {
 };
 
 export const getEventById = async (id: string) => {
-  const event = await EventModel.findById(id).populate("movies");
+  const event = await EventModel.findById(id)
+    .populate("movies")
+    .populate("ownerId");
   if (!event) {
     throw new AppError("Event not found", 404);
   }

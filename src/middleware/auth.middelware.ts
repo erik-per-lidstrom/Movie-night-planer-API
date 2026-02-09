@@ -36,6 +36,13 @@ export const restrictTo = (...allowedRoles: Roles[]) => {
       throw new AppError("forbiden", 403);
     }
 
+    // allow owner to update and delete
+    if (allowedRoles.includes("admin") || allowedRoles.includes("modirator")) {
+      if (req.params.id && user.id !== req.params.id) {
+        throw new AppError("forbiden", 403);
+      }
+    }
+
     next();
   };
 };
