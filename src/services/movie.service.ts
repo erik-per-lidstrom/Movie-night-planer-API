@@ -58,7 +58,7 @@ export const createMovieService = async (
 };
 
 export const getMoviesByEventIdService = async (eventId: string) => {
-  const movies = await MovieModel.find({ EventId: eventId });
+  const movies = await MovieModel.find({ eventId: eventId });
   if (!movies || movies.length === 0) {
     throw new AppError("No movies found for this event", 404);
   }

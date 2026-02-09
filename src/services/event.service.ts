@@ -6,7 +6,7 @@ import { AppError } from "../utils/app.error";
 
 export const createEvent = async (
   name: string,
-  date: Date,
+  date: string,
   location: string,
   description: string,
   agerate: string,
@@ -14,6 +14,7 @@ export const createEvent = async (
   endtime: string,
   genre: string,
   ownerId: mongo.ObjectId,
+  movies: mongo.ObjectId[],
 ) => {
   const newEvent: EventDocument = {
     name,
@@ -25,12 +26,13 @@ export const createEvent = async (
     agerate,
     genre,
     ownerId,
+    movies,
   };
   const existingEvent = await EventModel.findOne({ name });
   if (existingEvent) {
     throw new AppError("Event with this name already exists", 409);
   }
-  const createdEvent = await EventModel.create(newEvent);
+  const createdEvent = (await EventModel.create(newEvent)).populate("movies");
   return createdEvent;
 };
 
@@ -43,10 +45,11 @@ export const showEvents = async () => {
 };
 
 export const getEventById = async (id: string) => {
-  const event = await EventModel.findById(id);
+  const event = await EventModel.findById(id).populate("movies");
   if (!event) {
     throw new AppError("Event not found", 404);
   }
+
   return event;
 };
 

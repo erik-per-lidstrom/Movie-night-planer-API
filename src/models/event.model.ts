@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export interface EventDocument {
   name: string;
-  date: Date;
+  date: string;
   location: string;
   starttime: string;
   endtime: string;
@@ -12,6 +12,7 @@ export interface EventDocument {
   agerate: string;
   genre: string;
   ownerId: mongoose.Types.ObjectId;
+  movies: mongoose.Types.ObjectId[];
 }
 export const EventZodSchema = z.object({
   body: z.object({
@@ -24,6 +25,7 @@ export const EventZodSchema = z.object({
     agerate: z.string("not valid agerate").min(1),
     genre: z.string("not valid genre").min(1),
     ownerId: z.string("not valid ownerId"),
+    movies: z.array(z.string("not valid movieId")),
   }),
 });
 
@@ -32,7 +34,7 @@ export type CreateEventTypeZ = z.infer<typeof EventZodSchema>["body"];
 const eventSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    date: { type: Date, required: true },
+    date: { type: String, required: true },
     location: { type: String, required: true },
     starttime: { type: String, required: true },
     endtime: { type: String, required: true },
@@ -44,6 +46,12 @@ const eventSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    movies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Movie",
+      },
+    ],
   },
   { timestamps: true },
 );
