@@ -115,7 +115,7 @@ export const createEventService = async (params: EventDocument) => {
   if (existingEvent) {
     throw new AppError("Event with this name already exists", 409);
   }
-  const createdEvent = (await EventModel.create(newEvent)).populate("movies");
+  const createdEvent = await EventModel.create(newEvent);
 
   return createdEvent;
 };
@@ -123,7 +123,7 @@ export const createEventService = async (params: EventDocument) => {
 export const getEventByIdService = async (id: string) => {
   const event = await EventModel.findById(id)
     .populate("movies")
-    .populate("ownerId");
+    .populate("ownerId", "_id name email");
   if (!event) {
     throw new AppError("Event not found", 404);
   }
