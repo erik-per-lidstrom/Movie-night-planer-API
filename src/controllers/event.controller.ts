@@ -104,9 +104,16 @@ export const updateEvent = async (
   next: NextFunction,
 ) => {
   try {
+    const userId = req.user!.id;
+    const role = req.user!.role;
     const id = req.params.id as string;
     const changes = req.body;
-    const updatedEvent = await EventService.updateEventService(id, changes);
+    const updatedEvent = await EventService.updateEventService(
+      id,
+      changes,
+      userId,
+      role,
+    );
     res.status(200).json(updatedEvent);
   } catch (error) {
     next(error);
@@ -119,7 +126,9 @@ export const deleteEvent = async (
   next: NextFunction,
 ) => {
   try {
-    await EventService.deleteEventService(req.params.id);
+    const userId = req.user!.id;
+    const role = req.user!.role;
+    await EventService.deleteEventService(req.params.id, userId, role);
     res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     next(error);

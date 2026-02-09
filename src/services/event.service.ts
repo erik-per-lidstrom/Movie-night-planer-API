@@ -134,11 +134,22 @@ export const getEventByIdService = async (id: string) => {
 export const updateEventService = async (
   id: string,
   updateData: Partial<EventDocument>,
+  userId: string,
+  role: string,
 ) => {
+  const event = await EventModel.findById(id);
+  if (!event) {
+    throw new AppError("Event not found", 404);
+  }
+  if (event.ownerId._id.toString() !== userId && role !== "admin") {
+    throw new AppError("Unauthorized", 403);
+  }
+
   const updatedEvent = await EventModel.findByIdAndUpdate(id, updateData, {
     new: true,
     runValidators: true,
   });
+
   if (!updatedEvent) {
     throw new AppError("Event not found", 404);
   }
@@ -146,7 +157,18 @@ export const updateEventService = async (
   return updatedEvent;
 };
 
-export const deleteEventService = async (id: string) => {
+export const deleteEventService = async (
+  id: string,
+  userId: string,
+  role: string,
+) => {
+  const event = await EventModel.findById(id);
+  if (!event) {
+    throw new AppError("Event not found", 404);
+  }
+  if (event.ownerId._id.toString() !== userId && role !== "admin") {
+    throw new AppError("Unauthorized", 403);
+  }
   const deletedEvent = await EventModel.findByIdAndDelete(id);
   if (!deletedEvent) {
     throw new AppError("Event not found", 404);
