@@ -48,9 +48,14 @@ export const getMovieByIdService = async (id: string) => {
 export const updateMovieService = async (
   id: string,
   MovieData: Partial<MovieDocument>,
+  userId: string,
+  role: string,
 ) => {
   const existingMovie = await MovieModel.findById(id);
   if (!existingMovie) throw new Error("User not found...");
+  if (existingMovie.OwnerId._id.toString() !== userId && role !== "admin") {
+    throw new AppError("Unauthorized", 403);
+  }
   const updatedMovie = await MovieModel.findByIdAndUpdate(id, MovieData, {
     new: true,
     runValidators: true,
@@ -60,7 +65,16 @@ export const updateMovieService = async (
   return updatedMovie;
 };
 
-export const deleteMovieService = async (id: string) => {
+export const deleteMovieService = async (
+  id: string,
+  userId: string,
+  role: string,
+) => {
+  const existingMovie = await MovieModel.findById(id);
+  if (!existingMovie) throw new Error("User not found...");
+  if (existingMovie.OwnerId._id.toString() !== userId && role !== "admin") {
+    throw new AppError("Unauthorized", 403);
+  }
   const deletedMovie = await MovieModel.findByIdAndDelete(id);
   if (!deletedMovie) throw new Error("User not found...");
   return deletedMovie;
