@@ -26,13 +26,17 @@ export const protect = async (
   }
 };
 
-type Roles = "user" | "modirator" | "admin";
+type Roles = "user" | "moderator" | "admin";
 
 export const restrictTo = (...allowedRoles: Roles[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
-    if (!user || !allowedRoles.includes(user.role as Roles)) {
+    if (!user) {
+      throw new AppError("forbiden", 403);
+    }
+
+    if (!allowedRoles.includes(user.role as Roles)) {
       throw new AppError("forbiden", 403);
     }
 
