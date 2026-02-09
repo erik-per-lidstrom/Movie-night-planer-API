@@ -1,22 +1,104 @@
-// services for EVENTS
-
-import { mongo } from "mongoose";
 import { EventDocument, EventModel } from "../models/event.model";
 import { AppError } from "../utils/app.error";
+import { EventListRequest, ListResult } from "../types/query.types";
+import {
+  buildSearchQuery,
+  parseProjection,
+  parseSort,
+} from "../utils/query.utils";
 
-export const createEvent = async (
-  name: string,
-  date: Date,
-  location: string,
-  description: string,
-  agerate: string,
-  starttime: string,
-  endtime: string,
-  genre: string,
-  ownerId: mongo.ObjectId,
-) => {
-  const newEvent: EventDocument = {
-    name,
+const allowedSortFields = [
+  "createdAt",
+  "updatedAt",
+  "name",
+  "date",
+  "location",
+  "description",
+  "starttime",
+  "endtime",
+  "agerate",
+  "genre",
+  "ownerId",
+] as const;
+const allowedProjectionFields = [
+  "_id",
+  "name",
+  "date",
+  "location",
+  "description",
+  "starttime",
+  "endtime",
+  "agerate",
+  "genre",
+  "ownerId",
+  "createdAt",
+  "updatedAt",
+] as const;
+const allowedSearchFields = ["name", "description", "category"];
+
+export const showEventsService = async (
+  params: EventListRequest,
+): Promise<ListResult<EventDocument>> => {
+  const {
+    page,
+    limit,
+    sort,
+    fields,
+    search,
+    date,
+    location,
+    ownerId,
+    agerate,
+    genre,
+  } = params;
+
+  const filters: Record<string, unknown> = {};
+  if (date) filters.date = date;
+  if (location) filters.location = location;
+  if (ownerId) filters.ownerId = ownerId;
+  if (agerate) filters.agerate = agerate;
+  if (genre) filters.genre = genre;
+
+  const SearchQuery = buildSearchQuery(search, [...allowedSearchFields]);
+  const query: Record<string, unknown> = { ...filters, ...(SearchQuery ?? {}) };
+
+  const sortBy = parseSort(sort, [...allowedSortFields], "-createdAt");
+  const projection = parseProjection(fields, [...allowedProjectionFields]);
+
+  const skip = (page - 1) * limit;
+  const findQuery = EventModel.find(query).sort(sortBy).skip(skip).limit(limit);
+  if (projection) findQuery.select(projection);
+
+  const [data, total] = await Promise.all([
+    findQuery.exec(),
+    EventModel.countDocuments(query),
+  ]);
+
+  const totalPages = Math.ceil(total / limit) || 1;
+  return {
+    data,
+    meta: {
+      total,
+      page,
+      limit,
+      totalPages,
+    },
+  };
+};
+
+export const createEventService = async (params: EventDocument) => {
+  const {
+    date,
+    location,
+    description,
+    starttime,
+    endtime,
+    agerate,
+    genre,
+    ownerId,
+  } = params;
+  const newEvent = {
+    name: params.name,
     date,
     location,
     description,
@@ -26,23 +108,11 @@ export const createEvent = async (
     genre,
     ownerId,
   };
-  const existingEvent = await EventModel.findOne({ name });
-  if (existingEvent) {
-    throw new AppError("Event with this name already exists", 409);
-  }
-  const createdEvent = await EventModel.create(newEvent);
-  return createdEvent;
+  await EventModel.create(newEvent);
+  return newEvent;
 };
 
-export const showEvents = async () => {
-  const events = await EventModel.find();
-  if (events.length === 0) {
-    throw new AppError("No events found", 404);
-  }
-  return events;
-};
-
-export const getEventById = async (id: string) => {
+export const getEventByIdService = async (id: string) => {
   const event = await EventModel.findById(id);
   if (!event) {
     throw new AppError("Event not found", 404);
@@ -50,7 +120,7 @@ export const getEventById = async (id: string) => {
   return event;
 };
 
-export const updateEvent = async (
+export const updateEventService = async (
   id: string,
   updateData: Partial<EventDocument>,
 ) => {
@@ -66,7 +136,7 @@ export const updateEvent = async (
   return updatedEvent;
 };
 
-export const deleteEvent = async (id: string) => {
+export const deleteEventService = async (id: string) => {
   const deletedEvent = await EventModel.findByIdAndDelete(id);
   if (!deletedEvent) {
     throw new AppError("Event not found", 404);

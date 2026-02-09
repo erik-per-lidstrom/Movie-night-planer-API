@@ -1,36 +1,5 @@
-import ru from "zod/v4/locales/ru.js";
 import { MovieDocument, MovieModel } from "../models/movie.model";
-import { ListResult, MovieListRequest } from "../types/query.types";
 import { AppError } from "../utils/app.error";
-import {
-  buildSearchQuery,
-  parseBoolean,
-  parseProjection,
-  parseSort,
-} from "../utils/query.utils";
-import e from "express";
-
-const allowedSortFields = [
-  "createdAt",
-  "updatedAt",
-  "title",
-  "agerate",
-  "genre",
-  "description",
-  "imgUrl",
-  "runtime",
-] as const;
-const allowedProjectionFields = [
-  "_id",
-  "createdAt",
-  "updatedAt",
-  "title",
-  "agerate",
-  "genre",
-  "description",
-  "imgUrl",
-  "runtime",
-] as const;
 
 export const createMovieService = async (
   Title: string,
