@@ -88,6 +88,7 @@ export const showEventsService = async (
 
 export const createEventService = async (params: EventDocument) => {
   const {
+    name,
     date,
     location,
     description,
@@ -96,9 +97,10 @@ export const createEventService = async (params: EventDocument) => {
     agerate,
     genre,
     ownerId,
+    movies,
   } = params;
   const newEvent = {
-    name: params.name,
+    name,
     date,
     location,
     description,
@@ -107,6 +109,7 @@ export const createEventService = async (params: EventDocument) => {
     agerate,
     genre,
     ownerId,
+    movies,
   };
   await EventModel.create(newEvent);
   return newEvent;
@@ -117,6 +120,7 @@ export const getEventByIdService = async (id: string) => {
   if (!event) {
     throw new AppError("Event not found", 404);
   }
+
   return event;
 };
 

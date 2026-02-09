@@ -24,6 +24,7 @@ export const createEvent = async (
       description,
       agerate,
       genre,
+      movies,
     } = req.body;
 
     const newEvent = await EventService.createEventService({
@@ -36,6 +37,7 @@ export const createEvent = async (
       agerate,
       genre,
       ownerId: new Types.ObjectId(req.user!.id),
+      movies,
     });
     res
       .status(201)
