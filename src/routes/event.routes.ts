@@ -16,15 +16,9 @@ router.get("/", protect, showEvents);
 
 router.get("/:id", protect, getEventById);
 
-router.put("/:id", protect, restrictTo("admin"), updateEvent);
+router.put("/:id", protect, updateEvent);
 
-router.delete("/:id", protect, restrictTo("admin"), deleteEvent);
+router.delete("/:id", protect, deleteEvent);
 
-router.post(
-  "/",
-  validate(EventZodSchema),
-  protect,
-  restrictTo("admin"),
-  createEvent,
-);
+router.post("/", validate(EventZodSchema), protect, createEvent);
 export default router;

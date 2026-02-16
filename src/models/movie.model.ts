@@ -19,6 +19,7 @@ export const MovieZodSchema = z.object({
     Genre: z.string("not valid genre").min(3),
     Description: z.string("not valid description"),
     ImageURL: z.string("not valid image URL"),
+    Runtime: z.string("not valid runtime"),
     EventId: z.string("not valid ownerId"),
     OwnerId: z.string("not valid ownerId"),
   }),
@@ -33,6 +34,7 @@ const movieSchema = new mongoose.Schema(
     Genre: { type: String, required: true },
     Description: { type: String, required: true },
     ImageURL: { type: String, required: true },
+    Runtime: { type: String, required: true },
     EventId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Event",
