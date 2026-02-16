@@ -30,7 +30,18 @@ export const loginControler = async (
   try {
     const newUser = await loginUserServise({ email, password });
 
-    res.status(200).json({ message: "login successfuly", user: newUser });
+    const safeUser = {
+      name: newUser.user.name,
+      email: newUser.user.email,
+      age: newUser.user.age,
+      role: newUser.user.role,
+    };
+
+    res.status(200).json({
+      message: "login successfuly",
+      user: safeUser,
+      token: newUser.token,
+    });
   } catch (error) {
     next(error);
   }

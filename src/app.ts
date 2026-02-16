@@ -3,9 +3,16 @@ import userRouter from "./routes/user.route";
 import eventRouter from "./routes/event.routes";
 import movieRouter from "./routes/movie.routes";
 import { errorHandler } from "./middleware/error.middleware";
+import cors from "cors";
 export const createApp = () => {
   const app = express();
   app.use(express.json());
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    }),
+  );
 
   app.use("/api/users", userRouter);
 

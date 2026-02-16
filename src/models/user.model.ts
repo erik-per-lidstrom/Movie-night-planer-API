@@ -9,6 +9,7 @@ export interface UserDocument {
   age: number;
   password: string | undefined;
   role: UserRole;
+  
 }
 
 export const userZodSchema = z.object({

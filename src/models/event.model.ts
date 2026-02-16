@@ -24,8 +24,7 @@ export const EventZodSchema = z.object({
     description: z.string("not valid description").min(3),
     agerate: z.string("not valid agerate").min(1),
     genre: z.string("not valid genre").min(1),
-    ownerId: z.string("not valid ownerId"),
-    movies: z.array(z.string("not valid movieId")),
+    movies: z.array(z.string()).optional(),
   }),
 });
 

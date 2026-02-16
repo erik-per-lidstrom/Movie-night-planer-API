@@ -39,9 +39,23 @@ export const createEvent = async (
       ownerId: new Types.ObjectId(req.user!.id),
       movies,
     });
-    res
-      .status(201)
-      .json({ message: "Event created successfully", event: newEvent });
+
+    res.status(201).json({
+      message: "Event created successfully",
+      event: {
+        _id: newEvent._id,
+        name: newEvent.name,
+        date: newEvent.date,
+        location: newEvent.location,
+        starttime: newEvent.starttime,
+        endtime: newEvent.endtime,
+        description: newEvent.description,
+        agerate: newEvent.agerate,
+        genre: newEvent.genre,
+        movies: newEvent.movies,
+        ownerId: newEvent.ownerId,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -92,7 +106,19 @@ export const getEventById = async (
 ) => {
   try {
     const event = await EventService.getEventByIdService(req.params.id);
-    res.status(200).json(event);
+    res.status(200).json({
+      _id: event._id,
+      name: event.name,
+      date: event.date,
+      location: event.location,
+      starttime: event.starttime,
+      endtime: event.endtime,
+      description: event.description,
+      agerate: event.agerate,
+      genre: event.genre,
+      movies: event.movies,
+      ownerId: event.ownerId,
+    });
   } catch (error) {
     next(error);
   }
