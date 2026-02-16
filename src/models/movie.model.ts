@@ -20,8 +20,7 @@ export const MovieZodSchema = z.object({
     Description: z.string("not valid description"),
     ImageURL: z.string("not valid image URL"),
     Runtime: z.string("not valid runtime"),
-    EventId: z.string("not valid ownerId"),
-    OwnerId: z.string("not valid ownerId"),
+    EventId: z.string("not valid eventId").min(1),
   }),
 });
 
@@ -45,6 +44,7 @@ const movieSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    
   },
   { timestamps: true },
 );

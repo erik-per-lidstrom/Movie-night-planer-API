@@ -13,17 +13,15 @@ import { MovieZodSchema } from "../models/movie.model";
 
 const router = Router();
 
-<<<<<<< HEAD
 router.post(
-  "/event/:id",
+  "/",
   validate(MovieZodSchema),
   protect,
   restrictTo("admin"),
   createMovie,
 );
-=======
+
 router.post("/", validate(MovieZodSchema), protect, createMovie);
->>>>>>> 4eb16ffa35465b55a9ffb92cc5c433979a62a9af
 
 router.get("/", protect, getAllMovies);
 

@@ -11,10 +11,11 @@ export const createMovieService = async (
   EventId: string,
   OwnerId: string,
 ) => {
-  const existingMovie = await MovieModel.findOne({ Title });
-  console.log(existingMovie);
-  if (existingMovie) throw new AppError("movie already exists", 409);
-  const newMovie = {
+  const existingMovie = await MovieModel.findOne({ Title, EventId });
+  if (existingMovie)
+    throw new AppError("Movie already exists for this event", 409);
+
+  const newMovie = await MovieModel.create({
     Title,
     AgeRate,
     Genre,
@@ -23,8 +24,8 @@ export const createMovieService = async (
     Runtime,
     EventId,
     OwnerId,
-  };
-  await MovieModel.create(newMovie);
+  });
+
   return newMovie;
 };
 

@@ -9,22 +9,17 @@ import {
 } from "../services/movie.service";
 import { MovieModel } from "../models/movie.model";
 
+// [ERSÄTT] createMovie i movie.controller.ts
 export const createMovie = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const {
-      Title,
-      Description,
-      AgeRate,
-      Genre,
-      ImageURL,
-      Runtime,
-      EventId,
-      OwnerId = req.user?.id ?? "",
-    } = req.body;
+    const { Title, Description, AgeRate, Genre, ImageURL, Runtime, EventId } =
+      req.body;
+
+    const OwnerId = req.user?.id ?? "";
 
     const newMovie = await createMovieService(
       Title,
@@ -36,9 +31,8 @@ export const createMovie = async (
       EventId,
       OwnerId,
     );
-    res
-      .status(201)
-      .json({ message: "Movie created successfully", movie: newMovie });
+
+    res.status(201).json(newMovie); // [NY] returnera filmen direkt
   } catch (error) {
     next(error);
   }
