@@ -9,7 +9,6 @@ import {
 } from "../services/movie.service";
 import { MovieModel } from "../models/movie.model";
 
-// [ERSÄTT] createMovie i movie.controller.ts
 export const createMovie = async (
   req: Request,
   res: Response,
@@ -32,7 +31,7 @@ export const createMovie = async (
       OwnerId,
     );
 
-    res.status(201).json(newMovie); // [NY] returnera filmen direkt
+    res.status(201).json(newMovie);
   } catch (error) {
     next(error);
   }
@@ -52,13 +51,12 @@ export const getAllMovies = async (
 };
 
 export const getMovieByEventId = async (
-  req: Request<{ eventId: string }>,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const eventId = req.params.eventId;
-    // Assuming you have a service function to get movies by event ID
+    const eventId = req.params.id;
     const movies = await getMoviesByEventIdService(eventId);
     res.status(200).json(movies);
   } catch (error) {
