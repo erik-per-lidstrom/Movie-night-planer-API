@@ -14,7 +14,7 @@ import { MovieZodSchema } from "../models/movie.model";
 const router = Router();
 
 router.post(
-  "/",
+  "/event/:id",
   validate(MovieZodSchema),
   protect,
   restrictTo("admin"),
