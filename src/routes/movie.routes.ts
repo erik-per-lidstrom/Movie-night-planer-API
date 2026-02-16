@@ -5,6 +5,7 @@ import {
   getMovieById,
   deleteMovie,
   updateMovie,
+  getAllMovies,
 } from "../controllers/movie.controller";
 import { protect, restrictTo } from "../middleware/auth.middelware";
 import { validate } from "../middleware/validate.middleware";
@@ -13,6 +14,8 @@ import { MovieZodSchema } from "../models/movie.model";
 const router = Router();
 
 router.post("/", validate(MovieZodSchema), protect, createMovie);
+
+router.get("/", protect, getAllMovies);
 
 router.get("/:id", protect, getMovieById);
 
