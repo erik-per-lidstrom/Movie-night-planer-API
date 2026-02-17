@@ -15,19 +15,15 @@ const router = Router();
 
 router.post(
   "/",
-  validate(MovieZodSchema),
   protect,
+  validate(MovieZodSchema),
   restrictTo("admin"),
   createMovie,
 );
 
-router.post("/", validate(MovieZodSchema), protect, createMovie);
-
 router.get("/", protect, getAllMovies);
-
-router.get("/:id", protect, getMovieById);
-
 router.get("/event/:id", protect, getMovieByEventId);
+router.get("/:id", protect, getMovieById);
 
 router.put("/:id", protect, updateMovie);
 
